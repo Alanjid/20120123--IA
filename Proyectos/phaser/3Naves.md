@@ -1,3 +1,4 @@
+```
 // Definición del ancho y alto del lienzo del juego
 var w = 800;
 var h = 400;
@@ -27,7 +28,8 @@ var estatuSuelo; // Indicador de si el jugador está en el suelo
 var nnNetwork, nnEntrenamiento, nnSalida, datosEntrenamiento = []; // Variables relacionadas con la red neuronal
 var modoAuto = false; // Indicador del modo de juego (manual o automático)
 var eCompleto = false; // Indicador de si el entrenamiento de la red neuronal está completo
-
+```
+```
 // Creación del juego con Phaser
 var juego = new Phaser.Game(w, h, Phaser.CANVAS, '', { 
     preload: preload, 
@@ -35,7 +37,8 @@ var juego = new Phaser.Game(w, h, Phaser.CANVAS, '', {
     update: update, 
     render: render 
 });
-
+```
+```
 // Función para precargar los recursos del juego
 function preload() {
     juego.load.image('fondo', 'assets/game/fondo.jpg'); // Carga del fondo del juego
@@ -44,7 +47,8 @@ function preload() {
     juego.load.image('bala', 'assets/sprites/purple_ball.png'); // Carga del sprite de la bala
     juego.load.image('menu', 'assets/game/menu.png'); // Carga del sprite del menú de pausa
 }
-
+```
+```
 // Función para configurar los elementos al iniciar el juego
 function create() {
     juego.physics.startSystem(Phaser.Physics.ARCADE); // Inicia el sistema de física del juego
@@ -85,12 +89,14 @@ function create() {
     cursors.right.onDown.add(moverDerecha, this); // Asigna la función de mover a la derecha al hacer clic en la flecha derecha
     cursors.up.onDown.add(saltar, this); // Asigna la función de saltar al hacer clic en la flecha arriba
 }
-
+```
+```
 // Función para mover al jugador a la izquierda
 function moverIzquierda() {
     jugador.body.velocity.x = 0; // Ajusta la velocidad del jugador hacia la izquierda
 }
-
+```
+```
 // Función para mover al jugador a la derecha
 function moverDerecha() {
     console.log(limiteMovimiento);
@@ -100,26 +106,29 @@ function moverDerecha() {
         jugador.body.velocity.x = 0; // Detiene el movimiento si supera el límite
     }
 }
-
+```
+```
 // Función para entrenar la red neuronal
 function enRedNeural() {
     nnEntrenamiento.train(datosEntrenamiento, { rate: 0.0003, iterations: 10000, shuffle: true }); // Entrena la red neuronal con los datos de entrenamiento
 }
-
+```
+```
 // Función para obtener la salida de la red neuronal
 function datosDeEntrenamiento(param_entrada) {
     nnSalida = nnNetwork.activate(param_entrada); // Activa la red neuronal con la entrada proporcionada
     return nnSalida[0] >= nnSalida[1]; // Devuelve verdadero si la salida indica saltar
 }
-
+```
+```
 // Función para pausar el juego
 function pausa() {
     juego.paused = true; // Pausa el juego
     menu = juego.add.sprite(w / 2, h / 2, 'menu'); // Añade el menú de pausa al juego
     menu.anchor.setTo(0.5, 0.5); // Establece el punto de anclaje del menú de pausa
 }
-
-
+```
+```
 // Función para gestionar la pausa del juego
 function mPausa(event) {
     // Verifica si el juego está pausado
@@ -159,7 +168,8 @@ function mPausa(event) {
         }
     }
 }
-
+```
+```
 // Función para reiniciar las variables del juego
 function resetVariables() {
     jugador.body.velocity.x = 0; // Reinicia la velocidad horizontal del jugador
@@ -180,22 +190,26 @@ function resetVariables() {
     bala3.position.x = 50; // Reinicia la posición horizontal de la tercera bala
     balaD3 = false; // Restaura el estado de disparo de la tercera bala
 }
-
+```
+```
 // Función para reiniciar variables relacionadas
 function resetVariables2() {
     console.log("reinicio2"); // Imprime un mensaje indicando el reinicio de variables
 }
-
+```
+```
 // Función para reiniciar variables relacionadas
 function resetVariables3() {
     console.log("reinicio3"); // Imprime un mensaje indicando el reinicio de variables
 }
-
+```
+```
 // Función para hacer que el jugador salte
 function saltar() {
     jugador.body.velocity.y = -270; // Establece la velocidad vertical para que el jugador salte
 }
-
+```
+```
 // Función que se ejecuta en cada fotograma del juego para actualizar su estado
 function update() {
     fondo.tilePosition.x -= 1; // Desplaza el fondo del juego
@@ -282,8 +296,8 @@ function update() {
         });
     }
 }
-
-
+```
+```
 // Función para disparar la primera bala
 function disparo() {
     velocidadBala = -1 * 400; // Establece la velocidad horizontal de la bala
@@ -308,7 +322,8 @@ function disparo3() {
     bala3.body.velocity.x = 0; // Detiene el movimiento horizontal de la tercera bala
     balaD3 = true; // Marca la tercera bala como disparada
 }
-
+```
+```
 // Función para mover automáticamente hacia la izquierda
 function moverIzquierdaAuto() {
     jugador.body.velocity.x = -150; // Ajusta la velocidad del jugador hacia la izquierda
@@ -318,15 +333,17 @@ function moverIzquierdaAuto() {
 function moverDerechaAuto() {
     jugador.body.velocity.x = 150; // Ajusta la velocidad del jugador hacia la derecha
 }
-
+```
+```
 // Función que se llama cuando hay una colisión horizontal
 function colisionH() {
     pausa(); // Pausa el juego
 }
-
+```
+```
 // Función de renderizado
 function render() {}
-
+```
 // Entradas:
 // Teclas, click, posiciones, velocidades, pausa, modo de entrenamiento
 
