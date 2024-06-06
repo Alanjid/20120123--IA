@@ -4,6 +4,6 @@
 *.h5
 .h5
 .h5/
-*.h5
-.h5
+*.keras
+.keras
 .keras/
