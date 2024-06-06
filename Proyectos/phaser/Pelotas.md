@@ -1,3 +1,5 @@
+Inicializamos las variables
+```
 var w=500;
 var h=400;
 
@@ -32,6 +34,7 @@ var nnNetwork , nnEntrenamiento, nnSalida, datosEntrenamiento=[];
 var modoAuto = false, eCompleto=false;
 
 var juego = new Phaser.Game(w, h, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render:render});
+```
 
 function preload() { 
     juego.load.image('fondo', 'assets/game/fondo.jpg');
@@ -39,6 +42,7 @@ function preload() {
     juego.load.image('menu', 'assets/game/menu.png');
     juego.load.image('bala', 'assets/sprites/purple_ball.png');
 }
+```
 
 function create() { 
     cursors = this.input.keyboard.createCursorKeys(); 
