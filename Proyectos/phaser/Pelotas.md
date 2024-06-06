@@ -36,6 +36,8 @@ var modoAuto = false, eCompleto=false;
 var juego = new Phaser.Game(w, h, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render:render});
 ```
 
+Generamos la función preload para mandar llamadar los sprites y dejar precargados los datos
+```
 function preload() { 
     juego.load.image('fondo', 'assets/game/fondo.jpg');
     juego.load.spritesheet('mono', 'assets/sprites/altair.png', 32, 48);
@@ -44,6 +46,11 @@ function preload() {
 }
 ```
 
+Generamos la función create, esta nos va a funcionar para agregar fisicas a los personajes, más aparte generamos la neurona
+con 3 entradas que vendrian siendo la distancia entre el jugador y la bala
+y 4 salidas, que vendrian siendo la posición a la que se tiene que mover, ya sea arriba, abajo, izquierda, derecha o esquinas
+
+```
 function create() { 
     cursors = this.input.keyboard.createCursorKeys(); 
     juego.physics.startSystem(Phaser.Physics.ARCADE); 
@@ -77,11 +84,19 @@ function create() {
     nnNetwork =  new synaptic.Architect.Perceptron(3,6,6,4);
     nnEntrenamiento = new synaptic.Trainer(nnNetwork); 
 }
+```
 
+Generamos la función en la que hacemos el entrenamiento de la neurona con datos que se van a cargar más adelante
+
+```
 function enRedNeural(){ 
     nnEntrenamiento.train(datosEntrenamiento, {rate: 0.0003, iterations: 15000, shuffle: true});
 }
+```
 
+Esta función va a recibir los parametros de entrada del entrenamiento para saber a donde enviar al personaje dependiendo
+de la distancia entre la bala y el jugados
+```
 function datosDeEntrenamiento(param_entrada){ 
     nnSalida = nnNetwork.activate(param_entrada);
 
@@ -100,21 +115,30 @@ function datosDeEntrenamiento(param_entrada){
         return 4; // No se ha tomado una decisión clara
     }
 }
+```
 
-
-
+Con esta función ponemos el juego en pausa activando una de las banderas
+```
 function pausa() {
     juego.paused = true;
     menu = juego.add.sprite(w/2, h/2, 'menu');
     menu.anchor.setTo(0.5, 0.5);
 }
+```
 
+Con esta función al momento de iniciar el juego en modo entrenamiento reiniciamos todos los valores de la red neuronal 
+y que no exista un entrenamiento previo o ruido
+```
 function resetRedNeuronal() {
     nnNetwork = new synaptic.Architect.Perceptron(3, 6, 6, 4);
     nnEntrenamiento = new synaptic.Trainer(nnNetwork);
     datosEntrenamiento = [];
 }
+```
 
+Con esta función detectamos en donde se da click para saber si reiniciar el juego en modo entrenamiento o modo manual.
+Aparte así mismo mandamos a llamar el reinicio de variables o terminamos el entrenamiento de la neurona
+```
 function mPausa(event) {
     if (juego.paused) {
         var menu_x1 = w / 2 - 270 / 2,
@@ -139,8 +163,10 @@ function mPausa(event) {
         juego.paused = false;
     }
 }
+```
 
-
+Esta función nos sirve cuando iniciamos el juego, la implemtamos para que no haya ruido o sesgos en el entrenamiento
+```
 function resetVariables(){
     var cornerPositions = [{ x: 0, y: 0 }, { x: w, y: 0 }, { x: 0, y: h }, { x: w, y: h }];
     var randomCorner = cornerPositions[Math.floor(Math.random() * cornerPositions.length)];
@@ -157,7 +183,11 @@ function resetVariables(){
     jugador.position.x=230;
     jugador.position.y=200;
 }
+```
 
+Las siguientes funciones las realizamos para mandar al personaje a coordenadas especificas en el mapa, aparte de activar o desactivar
+banderas que seran las que nos diran en donde se encuentra el persoonaje y aparte para el entrenamiento de la neurona
+```
 function derecha() {
     jugador.position.x = 300;
     jugador.position.y = 200;
@@ -245,7 +275,11 @@ function esquinaAbajoDerecha() {
     estado_esquina = 4;
     regresar = false;
 }
+```
 
+Con esta función realizamos varios procesos, especialmente el movimiento y el proceso de llenado de nuestro arreglo para el
+entrenamiento de la neurona
+```
 function update() { 
 
     if (!key_der.isDown && !key_izq.isDown && !key_down.isDown && !key_up.isDown){
@@ -345,7 +379,10 @@ function update() {
         datosEntrenamiento.push(nuevoDatoEntrenamiento);
     }
 }
+```
 
+Con esta función mandamos al personaje a la posición inicial en cada reinicio del juego o despues de cada colisión
+```
 function posicion_inical(){
     if (timer > 25) {
         jugador.position.x = Phaser.Math.linear(jugador.position.x, 230, 0.5); 
@@ -358,9 +395,16 @@ function posicion_inical(){
         }
     }
 }
+```
 
+Con esta función mandamos la pausa despues de cada colisión
+```
 function colisionH(){  
     pausa();     
 }
+```
 
+Esta función es para renderizar codigo HTML y agregar información o detalles extras
+```
 function render(){}
+```
